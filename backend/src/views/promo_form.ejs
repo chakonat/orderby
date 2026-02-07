@@ -1,0 +1,40 @@
+﻿<%- include('partials/header') %>
+<section class="card">
+  <div class="card-header">
+    <h2><%= promo ? 'Редактировать промо' : 'Новое промо' %></h2>
+  </div>
+  <form method="post" enctype="multipart/form-data" action="<%= promo ? '/admin/promos/' + promo._id : '/admin/promos' %>">
+    <label>
+      Заголовок
+      <input name="title" required value="<%= promo?.title || '' %>" />
+    </label>
+    <label>
+      Подзаголовок
+      <input name="subtitle" value="<%= promo?.subtitle || '' %>" />
+    </label>
+    <label>
+      Badge
+      <input name="badge" value="<%= promo?.badge || '' %>" />
+    </label>
+    <label>
+      Процент скидки
+      <input name="discountPercent" type="number" value="<%= promo?.discountPercent || 0 %>" />
+    </label>
+    <label>
+      Картинка
+      <input type="file" name="image" accept="image/*" />
+    </label>
+    <label class="checkbox">
+      <input type="checkbox" name="isActive" <%= promo?.isActive !== false ? 'checked' : '' %> />
+      Активно
+    </label>
+    <% if (error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+    <div class="actions">
+      <button type="submit">Сохранить</button>
+      <a class="ghost" href="/admin">Отмена</a>
+    </div>
+  </form>
+</section>
+<%- include('partials/footer') %>

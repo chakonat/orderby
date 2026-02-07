@@ -1,0 +1,161 @@
+﻿<%- include('partials/header') %>
+<section class="grid">
+  <div class="card">
+    <div class="card-header">
+      <h2>Рестораны</h2>
+      <a class="primary" href="/admin/restaurants/new">Добавить ресторан</a>
+    </div>
+    <div class="list">
+      <% restaurants.forEach((restaurant) => { %>
+        <div class="list-item">
+          <div>
+            <strong><%= restaurant.name %></strong>
+            <p><%= restaurant.city %> · <%= restaurant.deliveryTime %> · <%= restaurant.priceLevel %></p>
+          </div>
+          <div class="actions">
+            <a class="ghost" href="/admin/restaurants/<%= restaurant._id %>/edit">Редактировать</a>
+            <form method="post" action="/admin/restaurants/<%= restaurant._id %>/delete">
+              <button class="danger" type="submit">Удалить</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+      <% if (restaurants.length === 0) { %>
+        <p>Ресторанов пока нет.</p>
+      <% } %>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <h2>Меню</h2>
+      <a class="primary" href="/admin/menu/new">Добавить блюдо</a>
+    </div>
+    <div class="list">
+      <% menuItems.forEach((item) => { %>
+        <div class="list-item">
+          <div>
+            <strong><%= item.name %></strong>
+            <p><%= item.restaurant?.name || '—' %> · <%= item.category %> · <%= item.price %> ₸</p>
+          </div>
+          <div class="actions">
+            <a class="ghost" href="/admin/menu/<%= item._id %>/edit">Редактировать</a>
+            <form method="post" action="/admin/menu/<%= item._id %>/delete">
+              <button class="danger" type="submit">Удалить</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+      <% if (menuItems.length === 0) { %>
+        <p>Блюд пока нет.</p>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<section class="grid">
+  <div class="card">
+    <div class="card-header">
+      <h2>Промо</h2>
+      <a class="primary" href="/admin/promos/new">Добавить промо</a>
+    </div>
+    <div class="list">
+      <% promos.forEach((promo) => { %>
+        <div class="list-item">
+          <div>
+            <strong><%= promo.title %></strong>
+            <p><%= promo.badge %> · <%= promo.discountPercent %>%</p>
+          </div>
+          <div class="actions">
+            <a class="ghost" href="/admin/promos/<%= promo._id %>/edit">Редактировать</a>
+            <form method="post" action="/admin/promos/<%= promo._id %>/delete">
+              <button class="danger" type="submit">Удалить</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+      <% if (promos.length === 0) { %>
+        <p>Промо пока нет.</p>
+      <% } %>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <h2>Купоны</h2>
+      <a class="primary" href="/admin/coupons/new">Добавить купон</a>
+    </div>
+    <div class="list">
+      <% coupons.forEach((coupon) => { %>
+        <div class="list-item">
+          <div>
+            <strong><%= coupon.code %></strong>
+            <p><%= coupon.description %> · <%= coupon.discountPercent %>% / <%= coupon.discountAmount %> ₸</p>
+          </div>
+          <div class="actions">
+            <a class="ghost" href="/admin/coupons/<%= coupon._id %>/edit">Редактировать</a>
+            <form method="post" action="/admin/coupons/<%= coupon._id %>/delete">
+              <button class="danger" type="submit">Удалить</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+      <% if (coupons.length === 0) { %>
+        <p>Купонов пока нет.</p>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<section class="grid">
+  <div class="card">
+    <div class="card-header">
+      <h2>Категории</h2>
+      <a class="primary" href="/admin/categories/new">Добавить категорию</a>
+    </div>
+    <div class="list">
+      <% categories.forEach((category) => { %>
+        <div class="list-item">
+          <div>
+            <strong><%= category.name %></strong>
+            <p><%= category.isActive ? 'Активна' : 'Скрыта' %></p>
+          </div>
+          <div class="actions">
+            <a class="ghost" href="/admin/categories/<%= category._id %>/edit">Редактировать</a>
+            <form method="post" action="/admin/categories/<%= category._id %>/delete">
+              <button class="danger" type="submit">Удалить</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+      <% if (categories.length === 0) { %>
+        <p>Категорий пока нет.</p>
+      <% } %>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <h2>Заказы</h2>
+    </div>
+    <div class="list">
+      <% orders.forEach((order) => { %>
+        <div class="list-item">
+          <div>
+            <strong><%= order.restaurant?.name || '—' %></strong>
+            <p><%= order.customer?.name %> · <%= order.total %> ₸</p>
+          </div>
+          <form class="actions" method="post" action="/admin/orders/<%= order._id %>/status">
+            <select name="status">
+              <% ['created','paid','preparing','delivering','completed','cancelled'].forEach((status) => { %>
+                <option value="<%= status %>" <%= order.status === status ? 'selected' : '' %>><%= status %></option>
+              <% }) %>
+            </select>
+            <button type="submit">Сақтау</button>
+          </form>
+        </div>
+      <% }) %>
+      <% if (orders.length === 0) { %>
+        <p>Заказов пока нет.</p>
+      <% } %>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>

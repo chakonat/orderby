@@ -1,0 +1,60 @@
+﻿<%- include('partials/header') %>
+<section class="card">
+  <div class="card-header">
+    <h2><%= item ? 'Редактировать блюдо' : 'Новое блюдо' %></h2>
+  </div>
+  <form method="post" enctype="multipart/form-data" action="<%= item ? '/admin/menu/' + item._id : '/admin/menu' %>">
+    <label>
+      Ресторан
+      <select name="restaurant" required>
+        <% restaurants.forEach((restaurant) => { %>
+          <option value="<%= restaurant._id %>" <%= item?.restaurant?.toString() === restaurant._id.toString() ? 'selected' : '' %>><%= restaurant.name %></option>
+        <% }) %>
+      </select>
+    </label>
+    <div class="grid-2">
+      <label>
+        Название
+        <input name="name" required value="<%= item?.name || '' %>" />
+      </label>
+      <label>
+        Категория
+        <input name="category" value="<%= item?.category || '' %>" />
+      </label>
+      <label>
+        Цена
+        <input name="price" type="number" value="<%= item?.price || 0 %>" />
+      </label>
+      <label>
+        Калории
+        <input name="calories" type="number" value="<%= item?.calories || 0 %>" />
+      </label>
+    </div>
+    <label>
+      Описание
+      <textarea name="description" rows="3"><%= item?.description || '' %></textarea>
+    </label>
+    <label>
+      Картинка
+      <input type="file" name="image" accept="image/*" />
+    </label>
+    <div class="grid-2">
+      <label class="checkbox">
+        <input type="checkbox" name="isPopular" <%= item?.isPopular ? 'checked' : '' %> />
+        Популярное
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" name="isAvailable" <%= item?.isAvailable !== false ? 'checked' : '' %> />
+        В наличии
+      </label>
+    </div>
+    <% if (error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+    <div class="actions">
+      <button type="submit">Сохранить</button>
+      <a class="ghost" href="/admin">Отмена</a>
+    </div>
+  </form>
+</section>
+<%- include('partials/footer') %>

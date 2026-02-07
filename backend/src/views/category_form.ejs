@@ -1,0 +1,24 @@
+﻿<%- include('partials/header') %>
+<section class="card">
+  <div class="card-header">
+    <h2><%= category ? 'Редактировать категорию' : 'Новая категория' %></h2>
+  </div>
+  <form method="post" action="<%= category ? '/admin/categories/' + category._id : '/admin/categories' %>">
+    <label>
+      Название
+      <input name="name" required value="<%= category?.name || '' %>" />
+    </label>
+    <label class="checkbox">
+      <input type="checkbox" name="isActive" <%= category?.isActive !== false ? 'checked' : '' %> />
+      Активна
+    </label>
+    <% if (error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+    <div class="actions">
+      <button type="submit">Сохранить</button>
+      <a class="ghost" href="/admin">Отмена</a>
+    </div>
+  </form>
+</section>
+<%- include('partials/footer') %>

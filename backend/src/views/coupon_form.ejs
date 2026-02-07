@@ -1,0 +1,42 @@
+﻿<%- include('partials/header') %>
+<section class="card">
+  <div class="card-header">
+    <h2><%= coupon ? 'Редактировать купон' : 'Новый купон' %></h2>
+  </div>
+  <form method="post" action="<%= coupon ? '/admin/coupons/' + coupon._id : '/admin/coupons' %>">
+    <label>
+      Код
+      <input name="code" required value="<%= coupon?.code || '' %>" />
+    </label>
+    <label>
+      Описание
+      <input name="description" value="<%= coupon?.description || '' %>" />
+    </label>
+    <div class="grid-2">
+      <label>
+        Процент скидки
+        <input name="discountPercent" type="number" value="<%= coupon?.discountPercent || 0 %>" />
+      </label>
+      <label>
+        Сумма скидки
+        <input name="discountAmount" type="number" value="<%= coupon?.discountAmount || 0 %>" />
+      </label>
+      <label>
+        Мин. заказ
+        <input name="minOrder" type="number" value="<%= coupon?.minOrder || 0 %>" />
+      </label>
+    </div>
+    <label class="checkbox">
+      <input type="checkbox" name="isActive" <%= coupon?.isActive !== false ? 'checked' : '' %> />
+      Активен
+    </label>
+    <% if (error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+    <div class="actions">
+      <button type="submit">Сохранить</button>
+      <a class="ghost" href="/admin">Отмена</a>
+    </div>
+  </form>
+</section>
+<%- include('partials/footer') %>
